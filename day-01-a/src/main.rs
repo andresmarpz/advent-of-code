@@ -1,20 +1,9 @@
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-};
+use std::time::Instant;
 
 fn main() {
-    // Open the file
-    let file = File::open("input.txt").expect("Failed to open file");
+    let start = Instant::now();
 
-    // Create a buffered reader
-    let mut reader = BufReader::new(file);
-
-    // Read the contents into a string
-    let mut contents = String::new();
-    reader
-        .read_to_string(&mut contents)
-        .expect("Failed to read file");
+    let contents = include_str!("../input.txt");
 
     // Split the string into a vector of lines
     let lines: Vec<&str> = contents.split("\n").collect();
@@ -46,5 +35,6 @@ fn main() {
         total = total + result;
     }
 
-    println!("Total: {}", total);
+    let duration = start.elapsed();
+    println!("Total: {}, in {} micros", total, duration.as_micros());
 }
