@@ -1,4 +1,4 @@
-import { partA } from "2023/src/day01/day01";
+import { part1 } from "2023/src/day01/day01";
 import { getDayInput } from "2023/utils/get-day-input";
 import { expect, test } from "bun:test";
 
@@ -25,6 +25,6 @@ zoneight234
 
 test("day 1 / part 1", () => {
   const dayInput = getDayInput(2023, 1);
-  expect(partA(exampleData)).toBe(142);
-  expect(partA(augmentedExampleData)).toBe(272);
+  expect(part1(exampleData)).toBe(142);
+  expect(part1(augmentedExampleData)).toBe(272);
 });

@@ -31,7 +31,7 @@ Consider your entire calibration document. What is the sum of all of the calibra
 
 */
 
-export function partA(input: string) {
+export function part1(input: string) {
   const lines = input.split("\n");
 
   let sum = 0;
@@ -53,6 +53,6 @@ export default function day1() {
   const input = getDayInput(2023, 1);
 
   console.time();
-  console.log(`Part A: ${partA(input)}`);
+  console.log(`Part 1: ${part1(input)}`);
   console.timeEnd();
 }
