@@ -32,7 +32,7 @@ Consider your entire calibration document. What is the sum of all of the calibra
 
 */
 
-export function part1(input: string) {
+export function part1(input: string): number {
   const lines = input.split("\n");
 
   let sum = 0;
@@ -48,6 +48,12 @@ export function part1(input: string) {
   }
 
   return sum;
+}
+
+export function part2(input: string): number {
+  const lines = input.split("\n");
+
+  return 0;
 }
 
 export default getDayExport(2023, 1, part1);
