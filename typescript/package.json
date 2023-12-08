@@ -1,6 +1,9 @@
 {
   "name": "advent-of-code-2023",
   "type": "module",
+  "scripts": {
+    "2023": "bun run 2023/src/index.ts"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },

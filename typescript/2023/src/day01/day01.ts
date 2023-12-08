@@ -1,3 +1,4 @@
+import { getDayExport } from "2023/utils/get-day-export";
 import { getDayInput } from "2023/utils/get-day-input";
 
 /**
@@ -49,10 +50,4 @@ export function part1(input: string) {
   return sum;
 }
 
-export default function day1() {
-  const input = getDayInput(2023, 1);
-
-  console.time();
-  console.log(`Part 1: ${part1(input)}`);
-  console.timeEnd();
-}
+export default getDayExport(2023, 1, part1);
