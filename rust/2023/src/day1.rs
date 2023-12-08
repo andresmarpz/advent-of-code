@@ -1,12 +1,7 @@
-use std::time::Instant;
-
-fn main() {
-    let start = Instant::now();
-
-    let contents = include_str!("../input.txt");
-
+#[aoc(day1, part1)]
+fn part1(input: &str) -> u32 {
     // Split the string into a vector of lines
-    let lines: Vec<&str> = contents.split("\n").collect();
+    let lines: Vec<&str> = input.split("\n").collect();
 
     let mut total = 0;
 
@@ -34,7 +29,5 @@ fn main() {
 
         total = total + result;
     }
-
-    let duration = start.elapsed();
-    println!("Total: {}, in {} micros", total, duration.as_micros());
+    total
 }
