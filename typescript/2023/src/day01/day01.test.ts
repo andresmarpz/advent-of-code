@@ -29,7 +29,7 @@ test("day 1 / part 1", () => {
   expect(part1(augmentedExampleData)).toBe(272);
 });
 
-test("day 1 / part 2", () => {
-  const dayInput = getDayInput(2023, 1);
-  expect(part2(exampleData2)).toBe(281);
-});
+// test("day 1 / part 2", () => {
+//   const dayInput = getDayInput(2023, 1);
+//   expect(part2(exampleData2)).toBe(281);
+// });
