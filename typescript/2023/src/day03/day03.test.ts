@@ -1,4 +1,4 @@
-import { part1 } from "2023/src/day03/day03";
+import { part1, part2 } from "2023/src/day03/day03";
 import { expect, test } from "bun:test";
 
 const exampleData = `
@@ -35,5 +35,6 @@ test("day 3 / part 1", () => {
   expect(part1(exampleExtra2)).toBe(7900);
 });
 
-// test("day 3 / part 2", () => { expect(part2(exampleData2)).toBe(2286);
-// });
+test("day 3 / part 2", () => {
+  expect(part2(exampleData)).toBe(467835);
+});

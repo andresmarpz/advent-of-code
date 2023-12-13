@@ -10,36 +10,24 @@ type Part = {
   valid: boolean;
 };
 
-/**
- *
- * The engine schematic (your puzzle input) consists of a visual representation of the engine. There are lots of numbers and symbols you don't really understand, but apparently any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum. (Periods (.) do not count as a symbol.)
- * Two numbers are not part numbers because they are not adjacent to a symbol. Every other number is adjacent to a symbol and so is a part number.
- */
-export function part1(input: string): number {
-  const lines = input.split("\n").filter((s) => !!s);
-
-  const potencialParts: Part[] = [];
+function getPossibleParts(lines: string[]): Part[] {
+  const parts: Part[] = [];
 
   lines.forEach((line, lineNumber) => {
-    let start: number | undefined, end: number | undefined;
-    let number: string = "";
+    let start: number | undefined,
+      end: number | undefined,
+      number: string = "";
 
     const chars = line.split("");
     chars.forEach((char, i) => {
       if (isNumber(char)) {
-        if (start === undefined) {
-          start = i;
-          end = i;
-        } else {
-          end = i;
-        }
+        if (start === undefined) start = i;
+        end = i;
 
         number += char;
-      }
-
-      if (!isNumber(char) || i === chars.length - 1) {
-        if (!!number && start !== undefined && end !== undefined) {
-          potencialParts.push({
+      } else if (!isNumber(char) || i === chars.length - 1) {
+        if (number && start !== undefined && end !== undefined) {
+          parts.push({
             start,
             end,
             number: parseInt(number),
@@ -53,9 +41,20 @@ export function part1(input: string): number {
         number = "";
       }
     });
-
-    return 0;
   });
+
+  return parts;
+}
+
+/**
+ *
+ * The engine schematic (your puzzle input) consists of a visual representation of the engine. There are lots of numbers and symbols you don't really understand, but apparently any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum. (Periods (.) do not count as a symbol.)
+ * Two numbers are not part numbers because they are not adjacent to a symbol. Every other number is adjacent to a symbol and so is a part number.
+ */
+export function part1(input: string): number {
+  const lines = input.split("\n").filter((s) => !!s);
+
+  const potencialParts = getPossibleParts(lines);
 
   potencialParts.forEach((part) => {
     const fromL = Math.max(part.line - 1, 0);
@@ -81,10 +80,61 @@ export function part1(input: string): number {
     .reduce((prev, acc) => prev + acc.number, 0);
 }
 
-export default getDayExport(2023, 3, part1);
+export function part2(input: string): number {
+  const lines = input.split("\n").filter((s) => !!s);
 
-//  .....
-//  .....
-//  4
-//  .....
-//  .....
+  const gears: {
+    line: number;
+    index: number;
+  }[] = [];
+  const parts = getPossibleParts(lines);
+
+  lines.forEach((line, i) => {
+    const chars = line.split("");
+    chars.forEach((char, j) => {
+      if (char === "*") {
+        gears.push({
+          line: i,
+          index: j,
+        });
+      }
+    });
+  });
+
+  let ratioSum = 0;
+
+  for (const gear of gears) {
+    const from = Math.max(gear.line - 1, 0);
+    const to = Math.min(gear.line + 1, lines.length);
+
+    const partsNear = [];
+    for (let l = from; l <= to; l++) {
+      const line = lines[l];
+
+      const fromChar = Math.max(gear.index - 1, 0);
+      const toChar = Math.min(gear.index + 1, line.length - 1);
+
+      for (let c = fromChar; c <= toChar; c++) {
+        const char = line[c];
+        if (isNumber(char)) {
+          // there is a part here
+          const part = parts.find(
+            (p) => p.line === l && p.start <= c && p.end >= c
+          );
+
+          partsNear.push(part);
+        }
+      }
+    }
+
+    // now we have every part around, some may be duplicate, and we need to cap to 2
+    const deduped = Array.from(new Set(partsNear));
+    if (deduped.length === 2) {
+      ratioSum += deduped[0]!.number * deduped[1]!.number;
+    }
+  }
+
+  return ratioSum;
+}
+
+export default getDayExport(2023, 3, part1);
