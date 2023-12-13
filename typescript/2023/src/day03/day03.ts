@@ -12,7 +12,6 @@ type Part = {
 
 function getPossibleParts(lines: string[]): Part[] {
   const parts: Part[] = [];
-
   lines.forEach((line, lineNumber) => {
     let start: number | undefined,
       end: number | undefined,
@@ -25,8 +24,10 @@ function getPossibleParts(lines: string[]): Part[] {
         end = i;
 
         number += char;
-      } else if (!isNumber(char) || i === chars.length - 1) {
-        if (number && start !== undefined && end !== undefined) {
+      }
+
+      if (!isNumber(char) || i === chars.length - 1) {
+        if (!!number && start !== undefined && end !== undefined) {
           parts.push({
             start,
             end,
@@ -41,13 +42,14 @@ function getPossibleParts(lines: string[]): Part[] {
         number = "";
       }
     });
+
+    return 0;
   });
 
   return parts;
 }
 
 /**
- *
  * The engine schematic (your puzzle input) consists of a visual representation of the engine. There are lots of numbers and symbols you don't really understand, but apparently any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum. (Periods (.) do not count as a symbol.)
  * Two numbers are not part numbers because they are not adjacent to a symbol. Every other number is adjacent to a symbol and so is a part number.
  */
@@ -112,23 +114,20 @@ export function part2(input: string): number {
       const line = lines[l];
 
       const fromChar = Math.max(gear.index - 1, 0);
-      const toChar = Math.min(gear.index + 1, line.length - 1);
+      const toChar = Math.min(gear.index + 1, line.length);
 
-      for (let c = fromChar; c <= toChar; c++) {
-        const char = line[c];
-        if (isNumber(char)) {
-          // there is a part here
-          const part = parts.find(
-            (p) => p.line === l && p.start <= c && p.end >= c
-          );
-
-          partsNear.push(part);
-        }
-      }
+      partsNear.push(
+        parts.filter(
+          (p) =>
+            p.line === l &&
+            ((p.start >= fromChar && p.start <= toChar) ||
+              (p.end >= fromChar && p.end <= toChar))
+        )
+      );
     }
 
     // now we have every part around, some may be duplicate, and we need to cap to 2
-    const deduped = Array.from(new Set(partsNear));
+    const deduped = Array.from(new Set(partsNear.flat()));
     if (deduped.length === 2) {
       ratioSum += deduped[0]!.number * deduped[1]!.number;
     }
@@ -137,4 +136,4 @@ export function part2(input: string): number {
   return ratioSum;
 }
 
-export default getDayExport(2023, 3, part1);
+export default getDayExport(2023, 3, part1, part2);
