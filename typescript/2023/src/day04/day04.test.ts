@@ -1,3 +1,4 @@
+import { part2 } from "2023/src/day04/day04";
 import { part1 } from "2023/src/day04/day04";
 import { expect, test } from "bun:test";
 
@@ -13,3 +14,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 test("day 4 / part 1", () => {
   expect(part1(exampleData)).toBe(13);
 });
+
+// test("day 4 / part 2", () => {
+//   expect(part2(exampleData)).toBe(13);
+// });
